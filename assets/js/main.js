@@ -4,11 +4,80 @@
 
 //Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei  numeri da indovinare sono stati individuati.
 
-//Parte il timer di 30 secondi
+//Collego la DOM
+let numbersCont = document.querySelector('.numbersCont');
+let startButton = document.querySelector('.startButton');
+let resetButton = document.querySelector('.resetButton')
 
-//Creo i 5 elementi in pagina
+//Creo le variabili
+let numeri = [];
+let numeriUtente = [];
+let risultato = "";
 
-//Alla fine dei 30 secondi l'utente deve indovinare tutti e 5 i numeri che c'erano in pagina
+//Funzioni per generazione
+generatoreNumeri (1, 10);
 
+//Funzione di click per la generazione
+startButton.addEventListener('click', () => {
+    
+    //Genero i numeri e li stampo
+    numeri = generatoreNumeri (1, 10);
 
+    //Do lo 0 come primo numero, per mostrare tutto
+    numbersCont.innerText = numeri;
 
+    //Al termine del countdown mostro tutto
+    setTimeout(() => {
+
+    alert("Hai visto 5 numeri, li ricordi?")
+    numbersCont.innerHTML = "";
+
+    }, 30000);
+
+    //Chiedo di inserire i 5 numeri
+    setTimeout (()=> {
+
+        for (let i = 0; i < 5; i++) {
+        
+            numeriUtente.push(parseInt(prompt("Scrivi i numeri che ricordi:")));
+        
+        }
+
+        //Controllo in log
+        console.log("Hai scritto ", numeriUtente);
+
+        //Valido i numeri
+        let numeriGiusti = numeriUtente.filter((numb) => {
+        
+            return numeri.includes(numb);
+            
+      })
+
+      //Verifica
+      console.log('Numeri uguali: ', numeriGiusti);
+
+      //Verifico i risultati
+      risultato = alert(`Hai azzeccato ${numeriGiusti}`);
+
+    }, 30000)
+    
+});
+
+//Pulsante di restart e reset
+resetButton.addEventListener('click', () => {
+
+    numbersCont.innerHTML = 0;
+
+})
+
+//Funzione matematica genera numeri random
+function generatoreNumeri(min, max) {
+
+    let numeri = [];
+
+    for (let i = 0; i < 5; i++) {
+        numeri.push(Math.floor(Math.random() * max) + min);
+    }
+
+    return numeri;
+}
